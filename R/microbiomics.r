@@ -8,7 +8,7 @@
 #' 
 #' @return a data frame with the MetaPhlAn results
 #' 
-#' @author Tommi Vatanen tommivat@gmail.com
+#' @author Tommi Vatanen tommivat@@gmail.com
 #' @export
 read_metaphlan_table <- function(filename, kingdom="k__Bacteria", lvl=7) {
   lvl_identifiers <- list("k__","p__","c__","o__","f __","g__","s__")
