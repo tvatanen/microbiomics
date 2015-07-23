@@ -4,7 +4,8 @@
 \alias{read_metaphlan_table}
 \title{A function to read MetaPhlAn 2.0 output file}
 \usage{
-read_metaphlan_table(filename, kingdom = "k__Bacteria", lvl = 7)
+read_metaphlan_table(filename, kingdom = "k__Bacteria", lvl = 7,
+  normalize = TRUE)
 }
 \arguments{
 \item{filename}{MetaPhlAn output file to be read}
@@ -17,9 +18,9 @@ read_metaphlan_table(filename, kingdom = "k__Bacteria", lvl = 7)
 a data frame with the MetaPhlAn results
 }
 \description{
-This functions read a MetaPhlAn 2.0 output file as an R data frame
+This functions reads a MetaPhlAn 2.0 output file as an R data frame
 }
 \author{
-Tommi Vatanen tommivat@gmail.com
+Tommi Vatanen <tommivat@gmail.com>
 }
 
