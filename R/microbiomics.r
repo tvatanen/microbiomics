@@ -53,3 +53,35 @@ read_taxon_table <- function(filename, lvl=6) {
   data <- as.data.frame(t(data))
   return(data)
 }
+
+#' A function to compute pairwise correlations between two data sets
+#' 
+#' This function computes pairwise correlations between columns of two data sets.
+#' It assumes that the data sets have same samples (on rows) in same order.
+#' 
+#' @param x data set 1 (samples x features1)
+#' @param y data set 2 (samples x features2)
+#' 
+#' @return a list with following elements
+#' \itemize{
+#'     \item  the clustering of rows as \code{\link{hclust}} object 
+#'     \item r features1 x features2 matrix of pairwise correlations
+#'     \item pval features1 x features2 matrix of nominal p-values
+#' }
+#' 
+#' @author Tommi Vatanen <tommivat@@gmail.com>
+#' @export
+pairwise_spearman <- function(x, y) {
+  pvalues <- array(0,c(dim(x)[2],dim(y)[2]))
+  spearman <- array(0,c(dim(x)[2],dim(y)[2]))
+  
+  for (i in 1:dim(x)[2]) {
+    for (j in 1:dim(y)[2]) {
+      tmp <- spearman.test(x[,i],y[,j], alternative = "t", approximation = "AS89")
+      pvalues[i,j] <- tmp$p.value
+      spearman[i,j] <- tmp$estimate
+    }
+  } 
+  return(list(r=spearman,pval=pvalues))
+}
+
