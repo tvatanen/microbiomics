@@ -64,9 +64,9 @@ read_taxon_table <- function(filename, lvl=6) {
 #' 
 #' @return a list with following elements
 #' \itemize{
-#'     \item  the clustering of rows as \code{\link{hclust}} object 
-#'     \item r features1 x features2 matrix of pairwise correlations
-#'     \item pval features1 x features2 matrix of nominal p-values
+#'     \item r: features1 x features2 matrix of pairwise correlations
+#'     \item p: features1 x features2 matrix of nominal p-values
+#'     \item q: features1 x features2 matrix of fdr corrected p-values (q-values)
 #' }
 #' 
 #' @author Tommi Vatanen <tommivat@@gmail.com>
@@ -82,6 +82,7 @@ pairwise_spearman <- function(x, y) {
       spearman[i,j] <- tmp$estimate
     }
   } 
-  return(list(r=spearman,pval=pvalues))
+  qvalues <- array(p.adjust(pvalues), dim(spearman))
+  return(list(r=spearman,p=pvalues,q=qvalues))
 }
 

@@ -14,9 +14,9 @@ pairwise_spearman(x, y)
 \value{
 a list with following elements
 \itemize{
-    \item  the clustering of rows as \code{\link{hclust}} object
-    \item r features1 x features2 matrix of pairwise correlations
-    \item pval features1 x features2 matrix of nominal p-values
+    \item r: features1 x features2 matrix of pairwise correlations
+    \item p: features1 x features2 matrix of nominal p-values
+    \item q: features1 x features2 matrix of fdr corrected p-values (q-values)
 }
 }
 \description{
