@@ -86,3 +86,46 @@ pairwise_spearman <- function(x, y) {
   return(list(r=spearman,p=pvalues,q=qvalues))
 }
 
+#' A function to select significant components among matrix of measurements
+#' 
+#' This function takes a matrix of values (e.g. correlations from pairwise spearman)
+#' and corresponding p-values and/or q-values. Given the threshold for p- and q-values 
+#' it will return reduced matrices of significant values where each row and column 
+#' contain at least one significant value (while retaining the original row and 
+#' column names).
+#' 
+#' @param values matrix of values of interest (e.g. correlations)
+#' @param p_values matrix of p-values for the matrix in the first argument
+#' @param q_values (optional) matrix of q-values for the matrix in the first argument. If q-values are given, no p-value thresholding is done.
+#' @pvalue_threshold threshold for significance for the p-values (default 0.01)
+#' @qvalue_threshold threshold for significance for the q-value (default 0.1)
+#' 
+#' @return a list with following elements
+#' \itemize{
+#'     \item values: matrix of significant values in the matrix of the first argument 
+#'     \item p: matrix of p-values for the values above
+#'     \item q: matrix of q-values for the values above (if q-values are given as argument)
+#' }
+#' 
+#' @author Tommi Vatanen <tommivat@@gmail.com>
+#' @export
+get_significant_values <- function(values, p_values, q_values=NA, pvalue_threshold=0.01, qvalue_threshold=0.1) {
+  
+  if (all(is.na(q_values))) {
+    ind <- which(p_values < pvalue_threshold, arr.ind = T)
+    
+    values_new = values[unique(ind[,1]),unique(ind[,2])]
+    pvalues_new = p_values[unique(ind[,1]),unique(ind[,2])]
+    return(list(values=values_new,p_values=pvalues_new))
+    
+  } else {
+    ind <- which(q_values < qvalue_threshold, arr.ind = T)
+    
+    values_new = values[unique(ind[,1]),unique(ind[,2])]
+    pvalues_new = p_values[unique(ind[,1]),unique(ind[,2])]
+    qvalues_new = q_values[unique(ind[,1]),unique(ind[,2])]
+    
+    return(list(values=values_new,q_values=qvalues_new,p_values=pvalues_new))
+    
+  }
+}
