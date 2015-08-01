@@ -7,6 +7,7 @@
 #' @docType package
 #' 
 #' @import pspearman
-#' 
+#' @import magrittr
+#' @import stringr
 #' 
 NA

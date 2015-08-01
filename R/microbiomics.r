@@ -1,3 +1,36 @@
+write_config = function(taxa, variables, filename){
+  template = 
+    "Matrix: Metadata
+  Read_PCL_Rows: %s-%s
+  
+  Matrix: Abundance
+  Read_PCL_Rows: %s-"
+  
+  cat(sprintf(template, variables[1], variables[length(variables)], colnames(taxa)[1]), file = filename)
+}
+
+write_tsv = function(taxa, metadata, variables, filename){
+  meta = metadata %>% data.frame %>% extract(, variables, drop = F) %>% as.matrix 
+  otu = taxa %>% data.frame %>% as.matrix
+  header = matrix(rownames(taxa), ncol = 1, dimnames = list(NULL, "ID"))
+  
+  mat = cbind(header, meta, otu)
+  
+  write.table(mat, sep = "\t", row.names = F, col.names = T, quote = F, file = filename)
+}
+
+read_maaslin_results = function(dir){
+  files = dir(dir, pattern = "-[A-Za-z_]+.txt$", full.names = T)
+  res = list()
+  for(file in files){
+    variable = str_match(file, "-([A-Za-z_]+).txt$")[2]
+    res[[variable]] = read.table(file, sep = "\t", header = T)
+  }
+  
+  return(res)
+}
+
+
 #' A function to read MetaPhlAn 2.0 output file
 #' 
 #' This functions reads a MetaPhlAn 2.0 output file as an R data frame
@@ -128,4 +161,48 @@ get_significant_values <- function(values, p_values, q_values=NA, pvalue_thresho
     return(list(values=values_new,q_values=qvalues_new,p_values=pvalues_new))
     
   }
+}
+
+#' A wrapper function for MaAsLin
+#'
+#' This function will run MaAsLin \url{https://bitbucket.org/biobakery/maaslin/} given a 
+#' set of taxa and metadata.
+#'  
+#' NB. This function requires Maaslin-package \url{https://bitbucket.org/biobakery/maaslin/}.
+#' However, in order to avoid multiple dependencies this is not explicitely defined as
+#' dependency in the microbiomcis-package.
+#' 
+#' @param taxa input taxa (samples x taxa data.frame)
+#' @param metadata input metadata (samples x features data.frame)
+#' @param strOutputDIR output directory (defaults to tmp directory)
+#' @param variables subset of metadata columns to test (defaults to all columns)
+#' @param strRandomCovariates features to be used as random effects 
+#' 
+#' @return a list with an association table per feature with associations with taxa.
+#' 
+#' @author Tommi Vatanen <tommivat@@gmail.com>, Raivo Kolde
+#' @export
+Maaslin.wrapper = function(taxa, metadata, strOutputDIR = tempfile(), variables = colnames(metadata), strRandomCovariates = NULL, ...) {
+  
+  # Create directory
+  dir.create(strOutputDIR, showWarnings = F)
+  
+  print(strOutputDIR)
+  
+  # Specify files
+  conf_file = file.path(strOutputDIR, "data.conf")
+  data_file_tsv = file.path(strOutputDIR, "data.tsv")
+  output_file = file.path(strOutputDIR, "output.txt")
+  
+  # Write maaslin files
+  write_config(taxa, c(variables, strRandomCovariates), conf_file)
+  write_tsv(taxa, metadata, c(variables, strRandomCovariates), data_file_tsv)
+  
+  # Run the maaslin command
+  Maaslin(strInputTSV = data_file_tsv, strOutputDIR = strOutputDIR, strInputConfig = conf_file, strRandomCovariates = strRandomCovariates, ...)
+  
+  # Read maaslin results
+  res = read_maaslin_results(strOutputDIR)
+  
+  return(res)
 }
