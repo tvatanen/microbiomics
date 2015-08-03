@@ -123,7 +123,7 @@ pairwise_spearman <- function(x, y) {
 
 #' A function to select significant components among matrix of measurements
 #' 
-#' This function takes a matrix of values (e.g. correlations from pairwise spearman)
+#' This function takes a matrix of values (e.g. correlations from \code{\link{pairwise_spearman}})
 #' and corresponding p-values and/or q-values. Given the threshold for p- and q-values 
 #' it will return reduced matrices of significant values where each row and column 
 #' contain at least one significant value (while retaining the original row and 
