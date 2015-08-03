@@ -180,7 +180,7 @@ get_significant_values <- function(values, p_values, q_values=NA, pvalue_thresho
 #' @param variables subset of metadata columns to test (defaults to all columns)
 #' @param strRandomCovariates features to be used as random effects 
 #' @param \dots additional parameters for the Maaslin call. Parameters passed to 
-#' \code{\link{Maaslin}}.
+#' \code{\link[Maaslin]{Maaslin}}.
 #' 
 #' @return a list with an association table per feature with associations with taxa.
 #' 
