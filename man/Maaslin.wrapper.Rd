@@ -19,7 +19,7 @@ Maaslin.wrapper(taxa, metadata, strOutputDIR = tempfile(),
 \item{strRandomCovariates}{features to be used as random effects}
 
 \item{\dots}{additional parameters for the Maaslin call. Parameters passed to
-\code{\link{Maaslin}}.}
+\code{\link[Maaslin]{Maaslin}}.}
 }
 \value{
 a list with an association table per feature with associations with taxa.
