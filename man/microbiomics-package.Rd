@@ -5,7 +5,7 @@
 \alias{microbiomics-package}
 \title{Microbiomics}
 \description{
-Implementation of some functions that maybe handy
+Implementation of some functions that may come handy
 in analysing microbiome data
 }
 

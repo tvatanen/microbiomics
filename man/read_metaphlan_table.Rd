@@ -13,6 +13,9 @@ read_metaphlan_table(filename, kingdom = "k__Bacteria", lvl = 7,
 \item{kingdom}{to read: One of "k__Bacteria", "k__Viruses", "k__Eukaryota"}
 
 \item{lvl}{what level of taxonomy to read (default = 7, species)}
+
+\item{normalize}{logical to determine if the output data will be normalized
+for each sample to sum up to unity (default: TRUE)}
 }
 \value{
 a data frame with the MetaPhlAn results

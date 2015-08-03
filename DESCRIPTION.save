@@ -1,9 +1,0 @@
-Package: microbiomics
-Title: Microbiomics
-Version: 0.0.0.9000
-Author: Tommi Vatanen
-Maintainer: Tommi Vatanen <tommivatgmail.com>
-Description: Functions for microbiome data analysis
-Depends: R (>= 3.0)
-License: GNU general public license v2
-LazyData: true

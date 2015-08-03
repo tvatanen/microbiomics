@@ -38,12 +38,14 @@ read_maaslin_results = function(dir){
 #' @param filename MetaPhlAn output file to be read
 #' @param kingdom to read: One of "k__Bacteria", "k__Viruses", "k__Eukaryota"
 #' @param lvl what level of taxonomy to read (default = 7, species)
+#' @param normalize logical to determine if the output data will be normalized
+#' for each sample to sum up to unity (default: TRUE)
 #' 
 #' @return a data frame with the MetaPhlAn results
 #' 
 #' @author Tommi Vatanen <tommivat@@gmail.com>
 #' @export
-read_metaphlan_table <- function(filename, kingdom = "k__Bacteria", lvl = 7, normalize= TRUE) {
+read_metaphlan_table <- function(filename, kingdom = "k__Bacteria", lvl = 7, normalize = TRUE) {
   lvl_identifiers <- list("k__","p__","c__","o__","f __","g__","s__")
   if (!(kingdom %in% c("k__Bacteria", "k__Viruses", "k__Eukaryota"))) {
     stop("Kingdom should be on of the following: k__Bacteria [default], k__Viruses, k__Eukaryota")
@@ -130,8 +132,8 @@ pairwise_spearman <- function(x, y) {
 #' @param values matrix of values of interest (e.g. correlations)
 #' @param p_values matrix of p-values for the matrix in the first argument
 #' @param q_values (optional) matrix of q-values for the matrix in the first argument. If q-values are given, no p-value thresholding is done.
-#' @pvalue_threshold threshold for significance for the p-values (default 0.01)
-#' @qvalue_threshold threshold for significance for the q-value (default 0.1)
+#' @param pvalue_threshold threshold for significance for the p-values (default 0.01)
+#' @param qvalue_threshold threshold for significance for the q-value (default 0.1)
 #' 
 #' @return a list with following elements
 #' \itemize{
@@ -165,18 +167,20 @@ get_significant_values <- function(values, p_values, q_values=NA, pvalue_thresho
 
 #' A wrapper function for MaAsLin
 #'
-#' This function will run MaAsLin \url{https://bitbucket.org/biobakery/maaslin/} given a 
+#' This function will run MaAsLin (\url{https://bitbucket.org/biobakery/maaslin/}) given a 
 #' set of taxa and metadata.
 #'  
-#' NB. This function requires Maaslin-package \url{https://bitbucket.org/biobakery/maaslin/}.
+#' This function requires Maaslin-package (\url{https://bitbucket.org/biobakery/maaslin/}).
 #' However, in order to avoid multiple dependencies this is not explicitely defined as
-#' dependency in the microbiomcis-package.
+#' dependency in the microbiomics-package.
 #' 
 #' @param taxa input taxa (samples x taxa data.frame)
 #' @param metadata input metadata (samples x features data.frame)
 #' @param strOutputDIR output directory (defaults to tmp directory)
 #' @param variables subset of metadata columns to test (defaults to all columns)
 #' @param strRandomCovariates features to be used as random effects 
+#' @param \dots additional parameters for the Maaslin call. Parameters passed to 
+#' \code{\link{Maaslin}}.
 #' 
 #' @return a list with an association table per feature with associations with taxa.
 #' 
