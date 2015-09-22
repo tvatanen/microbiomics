@@ -20,10 +20,10 @@ write_tsv = function(taxa, metadata, variables, filename){
 }
 
 read_maaslin_results = function(dir){
-  files = dir(dir, pattern = "-[A-Za-z_]+.txt$", full.names = T)
+  files = dir(dir, pattern = "-[A-Za-z0-9_]+.txt$", full.names = T)
   res = list()
   for(file in files){
-    variable = str_match(file, "-([A-Za-z_]+).txt$")[2]
+    variable = str_match(file, "-([A-Za-z0-9_]+).txt$")[2]
     res[[variable]] = read.table(file, sep = "\t", header = T)
   }
   
