@@ -2,9 +2,11 @@
 
 export(Maaslin.wrapper)
 export(get_significant_values)
+export(jaccard)
 export(pairwise_spearman)
 export(read_metaphlan_table)
 export(read_taxon_table)
 import(magrittr)
 import(pspearman)
 import(stringr)
+importFrom(proxy,dist)
