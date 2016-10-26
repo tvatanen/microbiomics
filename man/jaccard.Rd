@@ -2,7 +2,7 @@
 % Please edit documentation in R/microbiomics.r
 \name{jaccard}
 \alias{jaccard}
-\title{A function to compute Jaccard Index for given microbial profiles}
+\title{Compute Jaccard distance / index for given microbial profiles}
 \usage{
 jaccard(x, return_index = FALSE)
 }
@@ -12,13 +12,13 @@ jaccard(x, return_index = FALSE)
 \item{return_index}{set TRUE to return Jaccard Index instead of distance}
 }
 \value{
-a dist object containing Jaccard distances
+a dist object containing Jaccard distances / indeces
 }
 \description{
-This functions computes distance matrix based on microbial community profiles given as input.
-Jaccard distance is based on Jaccard index, following the definition given in wikipedia
-(https://en.wikipedia.org/wiki/Jaccard_index). Note, that this is different from Jaccard index
-in vegdist function in package vegan.
+This functions computes distance / similarity matrix based on microbial community profiles
+given as input. Jaccard distance is based on Jaccard index, following the definition given
+in wikipedia (https://en.wikipedia.org/wiki/Jaccard_index). Note, that this is different
+from Jaccard index in vegdist function in package vegan.
 }
 \author{
 Tommi Vatanen <tommivat@gmail.com>

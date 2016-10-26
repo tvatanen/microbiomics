@@ -34,17 +34,17 @@ jaccard_ = function(x, y) {
   return(sum(x & y) / sum(x | y))
 }
 
-#' A function to compute Jaccard Index for given microbial profiles
+#' Compute Jaccard distance / index for given microbial profiles
 #' 
-#' This functions computes distance matrix based on microbial community profiles given as input.
-#' Jaccard distance is based on Jaccard index, following the definition given in wikipedia
-#' (https://en.wikipedia.org/wiki/Jaccard_index). Note, that this is different from Jaccard index
-#' in vegdist function in package vegan.
+#' This functions computes distance / similarity matrix based on microbial community profiles 
+#' given as input. Jaccard distance is based on Jaccard index, following the definition given 
+#' in wikipedia (https://en.wikipedia.org/wiki/Jaccard_index). Note, that this is different 
+#' from Jaccard index in vegdist function in package vegan.
 #' 
 #' @param x data frame or matrix containing microbial community profiles
 #' @param return_index set TRUE to return Jaccard Index instead of distance
 #' 
-#' @return a dist object containing Jaccard distances
+#' @return a dist object containing Jaccard distances / indeces
 #' 
 #' @author Tommi Vatanen <tommivat@@gmail.com>
 #' @importFrom proxy dist
