@@ -55,6 +55,40 @@ jaccard <- function(x, return_index = FALSE) {
   else { return(1-jaccard_idx) }
 }
 
+#' Filter distance matrix for outliers
+#' 
+#' Detect and filter distance matrix for potential outliers by heuristical detection.
+#' The distance matrix is pruned using the following criterion until no further outliers
+#' are found: 
+#' \enumerate{
+#' \item Compute distance threshold by computing \code{quant} quantile of the entire distance matrix
+#' \item Find and remove the most extreme data point defined by highest median distance to other 
+#' data if it has less than \code{n_neighbour} neighbours closer than threshold to itself
+#' \item  Return to the first step and continue until no further data points are pruned.
+#' }
+#' 
+#' @param d distance matrix as matrix
+#' @param quant quantile of all distances to use as a filtering threshold
+#' @param n_neighbour number of neighbours required
+#' 
+#' @return filtered distance matrix
+#' 
+#' @author Tommi Vatanen <tommivat@@gmail.com>
+#' @export
+filter_dist_outliers <- function(d, quant = 0.8, n_neighbour = 1) {
+  median_dist <- apply(d,1,median)
+  extreme_row <- which.max(median_dist)
+  limit <- quantile(D[upper.tri(D)], quant)
+  while ( sum(d[extreme_row, -extreme_row] < limit) <= n_neighbour ) {
+    d <- d[ -extreme_row, -extreme_row]
+    median_dist <- apply(d,1,median)
+    extreme_row <- which.max(median_dist)
+    limit <- quantile(D[upper.tri(D)], quant)
+  }
+  return(d)  
+}
+
+
 #' A function to read MetaPhlAn 2.0 output file
 #' 
 #' This functions reads a MetaPhlAn 2.0 output file as an R data frame
