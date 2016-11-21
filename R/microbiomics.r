@@ -71,21 +71,21 @@ jaccard <- function(x, return_index = FALSE) {
 #' @param quant quantile of all distances to use as a filtering threshold
 #' @param n_neighbour number of neighbours required
 #' 
-#' @return filtered distance matrix
+#' @return filtered distance matrix, or NULL if all samples were pruned
 #' 
 #' @author Tommi Vatanen <tommivat@@gmail.com>
 #' @export
 filter_dist_outliers <- function(d, quant = 0.8, n_neighbour = 1) {
-  median_dist <- apply(d,1,median)
-  extreme_row <- which.max(median_dist)
-  limit <- quantile(D[upper.tri(D)], quant)
-  while ( sum(d[extreme_row, -extreme_row] < limit) <= n_neighbour ) {
-    d <- d[ -extreme_row, -extreme_row]
+  while ( TRUE ) {
     median_dist <- apply(d,1,median)
     extreme_row <- which.max(median_dist)
-    limit <- quantile(D[upper.tri(D)], quant)
+    limit <- quantile(d[upper.tri(d)], quant)
+    # break and return if there are no rows / columns to prune
+    if ( sum(d[extreme_row, -extreme_row] < limit) > n_neighbour ) { return (d) }
+    d <- d[ -extreme_row, -extreme_row]
+    # return null if the whole matrix was pruned
+    if ( is.null(dim(d)) ) { return(NULL)}
   }
-  return(d)  
 }
 
 
