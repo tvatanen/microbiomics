@@ -34,6 +34,33 @@ jaccard_ = function(x, y) {
   return(sum(x & y) / sum(x | y))
 }
 
+gene_distance_ = function(x, y) {
+  return(sum(x & y) / min(c(sum(x>0), sum(y>0))))
+}
+
+#' Compute gene similarity (or distance) for gene profiles
+#' 
+#' This functions returns gene similarity / distance based on microbial gene profiles 
+#' given as input. Gene similarity between two clades / genomes is the number of common
+#' genes between the genomes divided by the number of genes in the smaller genome,
+#' as defined in https://www.ncbi.nlm.nih.gov/pubmed/15044248
+#' Gene distance is '1 - gene similarity'.
+#' #' 
+#' @param x data frame or matrix (genomes x genes) containing gene profiles 
+#' @param return_similarity set TRUE to return similarity instead of distance
+#' 
+#' @return a dist object containing gene similarities / distances
+#' 
+#' @author Tommi Vatanen <tommivat@@gmail.com>
+#' @importFrom proxy dist
+#' @export
+gene_distance <- function(x, return_similarity = FALSE) {
+  gene_dist <- proxy::dist(x, method = gene_distance_)
+  if (return_similarity) { return(1-gene_dist) }
+  else { return(gene_dist) }
+}
+
+
 #' Compute Jaccard distance / index for given microbial profiles
 #' 
 #' This functions computes distance / similarity matrix based on microbial community profiles 
