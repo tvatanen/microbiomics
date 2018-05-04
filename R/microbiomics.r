@@ -43,7 +43,7 @@ gene_distance_ = function(x, y) {
 #' This functions returns gene similarity / distance based on microbial gene profiles 
 #' given as input. Gene similarity between two clades / genomes is the number of common
 #' genes between the genomes divided by the number of genes in the smaller genome,
-#' as defined in https://www.ncbi.nlm.nih.gov/pubmed/15044248
+#' as defined in https://www.ncbi.nlm.nih.gov/pubmed/9916801
 #' Gene distance is '1 - gene similarity'.
 #' #' 
 #' @param x data frame or matrix (genomes x genes) containing gene profiles 
