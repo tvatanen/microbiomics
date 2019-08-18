@@ -8,8 +8,10 @@ Imports:
     pspearman,
     magrittr,
     stringr,
-    proxy
+    proxy,
+    tibble,
+    readr
 Depends: R (>= 3.0)
 License: GPL-2
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

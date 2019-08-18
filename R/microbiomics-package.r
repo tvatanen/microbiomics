@@ -16,6 +16,8 @@
 #' @import pspearman
 #' @import magrittr
 #' @import stringr
+#' @import tibble
+#' @import readr
 #' 
 #' @docType package
 #' @name microbiomics-package

@@ -19,6 +19,11 @@ write_tsv = function(taxa, metadata, variables, filename){
   write.table(mat, sep = "\t", row.names = F, col.names = T, quote = F, file = filename)
 }
 
+write_maaslin2_tsv = function(data, filename){
+  data <- rownames_to_column(data, "ID")
+  write.table(data, sep = "\t", row.names = F, col.names = T, quote = F, file = filename)
+}
+
 read_maaslin_results = function(dir){
   files = dir(dir, pattern = "-[A-Za-z0-9_]+.txt$", full.names = T)
   res = list()
@@ -29,6 +34,12 @@ read_maaslin_results = function(dir){
   
   return(res)
 }
+
+read_maaslin2_results = function(dir){
+  res <- read_tsv(file.path(dir, "all_results.tsv"))
+  return(res)
+}
+
 
 jaccard_ = function(x, y) {
   return(sum(x & y) / sum(x | y))
@@ -292,6 +303,58 @@ Maaslin.wrapper = function(taxa, metadata, strOutputDIR = tempfile(), variables 
   
   # Read maaslin results
   res = read_maaslin_results(strOutputDIR)
+  
+  return(res)
+}
+
+
+#' A wrapper function for MaAsLin2
+#'
+#' This function will run MaAsLin2 (\url{https://bitbucket.org/biobakery/maaslin2/}) given a 
+#' set of taxa and metadata.
+#'  
+#' This function requires Maaslin2-package (\url{https://bitbucket.org/biobakery/maaslin2/}).
+#' However, in order to avoid multiple dependencies this is not explicitely defined as
+#' dependency in the microbiomics-package.
+#' 
+#' @param taxa input taxa (samples x taxa data.frame)
+#' @param metadata input metadata (samples x features data.frame)
+#' @param output output directory (defaults to tmp directory)
+#' @param fixed_effects subset of metadata columns to test (defaults to all columns)
+#' @param random_effects features to be used as random effects 
+#' @param \dots additional parameters for the Maaslin call. Parameters passed to 
+#' \code{\link[Maaslin2]{Maaslin}}.
+#' 
+#' @return a list with an association table per feature with associations with taxa.
+#' 
+#' @author Tommi Vatanen <tommivat@@gmail.com>
+#' @export
+Maaslin2.wrapper = function(taxa, metadata, output = tempfile(), fixed_effects, random_effects = NULL, ...) {
+  
+  # Create directory
+  dir.create(output, showWarnings = F)
+  
+  print(paste("Output directory:", output))
+  
+  # Specify files
+  taxa_file_tsv = file.path(output, "taxa.tsv")
+  metadata_file_tsv = file.path(output, "metadata.tsv")
+  output_file = file.path(output, "output.txt")
+  
+  # Write maaslin files
+  write_maaslin2_tsv(taxa, taxa_file_tsv)
+  write_maaslin2_tsv(metadata, metadata_file_tsv)
+  
+  # Run the maaslin command
+  Maaslin2(input_data = taxa_file_tsv, 
+           input_metadata = metadata_file_tsv,
+           output = output, 
+           fixed_effects = fixed_effects, 
+           random_effects = random_effects,
+           ...)
+  
+  # Read maaslin results
+  res = read_maaslin2_results(output)
   
   return(res)
 }
