@@ -36,7 +36,7 @@ read_maaslin_results = function(dir){
 }
 
 read_maaslin2_results = function(dir){
-  res <- read_tsv(file.path(dir, "all_results.tsv"))
+  res <- read_tsv(file.path(dir, "significant_results.tsv"))
   return(res)
 }
 
