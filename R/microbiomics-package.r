@@ -2,6 +2,8 @@
 #' 
 #' Implementation of some functions that may come handy in analysing microbiome data. 
 #' 
+#' The microbiomics package is developed at GitHub (\url{https://github.com/tvatanen/microbiomics/}).
+#'
 #' Following functions are included:
 #' \describe{
 #'  \item{\code{\link{read_metaphlan_table}}}{read a MetaPhlAn 2.0 output file as an R data frame}
@@ -10,6 +12,8 @@
 #'  \item{\code{\link{pairwise_spearman}}}{compute pairwise correlations between columns of two data sets}
 #'  \item{\code{\link{get_significant_values}}}{get significant components among a matrix of measurements}
 #'  \item{\code{\link{Maaslin.wrapper}}}{run MaAsLin (\url{https://bitbucket.org/biobakery/maaslin/}) given a
+#' set of taxa and metadata}
+#'  \item{\code{\link{Maaslin2.wrapper}}}{run MaAsLin2 (\url{https://bitbucket.org/biobakery/maaslin2/}) given a
 #' set of taxa and metadata}
 #' }
 #' 
