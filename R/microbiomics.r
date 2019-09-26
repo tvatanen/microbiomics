@@ -295,3 +295,21 @@ Maaslin.wrapper = function(taxa, metadata, strOutputDIR = tempfile(), variables 
   
   return(res)
 }
+
+#' Log-transformation for microbiome data
+#'
+#' This function will log-transform (base 10) table containing microbial relative abundances.
+#' Zero values are replaced with half of the minimum value per each taxa.
+#'  
+#' @param table input table (samples x taxa data.frame)
+#' 
+#' @return log-transformed table (samples x tada data.frame)
+#' 
+#' @author Tommi Vatanen <tommivat@@gmail.com>
+#' @export
+
+log_transform <- function(table) {
+  zero_to_half_min <- function(x) replace(x, x ==0, min(x[x>0]) / 2)
+  table <- replace(table, TRUE, lapply(table, zero_to_half_min))
+  return(log10(table))
+}
